@@ -1,5 +1,7 @@
 class MoviesController < ApplicationController
 
+  before_action :set_movie, only: [:edit, :update]
+
   def index
     @movies = Movie.all
   end
@@ -24,17 +26,14 @@ class MoviesController < ApplicationController
   def update
     if @movie.update(movie_params)
       flash[:notice] = 'Succesfully added'
-      redirect_to movies_path
-    else
-      flash[:notice] = 'failed to add'
-      render :new
+      redirect_to root_path
     end
   end
 
   private
 
   def set_movie
-    @movie = Movie.find(params [:id])
+    @movie = Movie.find(params[ :id])
   end
 
   def movie_params
