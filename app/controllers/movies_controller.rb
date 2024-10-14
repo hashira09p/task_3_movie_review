@@ -1,6 +1,6 @@
 class MoviesController < ApplicationController
 
-  before_action :set_movie, only: [:edit, :update]
+  before_action :set_movie, only: [:edit, :update, :destroy]
 
   def index
     @movies = Movie.all
@@ -26,6 +26,12 @@ class MoviesController < ApplicationController
   def update
     if @movie.update(movie_params)
       flash[:notice] = 'Succesfully added'
+      redirect_to root_path
+    end
+  end
+
+  def destroy
+    if @movie.destroy
       redirect_to root_path
     end
   end
