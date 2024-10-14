@@ -3,7 +3,7 @@ class MoviesController < ApplicationController
   before_action :set_movie, only: [:edit, :update, :destroy]
 
   def index
-    @movies = Movie.all
+    @movies = Movie.includes(:genres).all
   end
 
   def new
@@ -19,6 +19,7 @@ class MoviesController < ApplicationController
       flash[:notice] = 'failed to add'
       render :new
     end
+
   end
 
   def edit;end
@@ -43,6 +44,6 @@ class MoviesController < ApplicationController
   end
 
   def movie_params
-    params.require(:movie).permit(:title, :blurb, :date_released, :country_of_origin, :showing_start, :showing_end, :image)
+    params.require(:movie).permit(:title, :blurb, :date_released, :country_of_origin, :showing_start, :showing_end, :image, genre_ids: [])
   end
 end

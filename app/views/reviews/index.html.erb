@@ -1,0 +1,22 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Movie Reviews</h1>
+    <%= link_to "Add Review", new_movie_review_path(@movie), class: "btn btn-success" %>
+  </div>
+
+  <div class="row">
+    <% @reviews.each do |review| %>
+      <div class="col-12 mb-3"> <!-- Change to col-12 for full width -->
+        <div class="card h-100">
+          <div class="card-body">
+            <p class="card-text"><%= review.content %></p>
+            <div class="d-flex justify-content-between">
+              <%= link_to 'Edit', edit_movie_review_path(review.id, @movie), class: 'btn btn-warning' %>
+              <%#= link_to 'Destroy', movie_path(movie), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

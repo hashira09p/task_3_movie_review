@@ -1,35 +1,36 @@
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Movies</h1>
-        <%= link_to "Add Movie", new_movie_path, class: "btn btn-success" %>
-    </div>
-    <div class="row">
-        <% @movies.each do |movie| %>
-            <div class="col-md-4 mb-4 d-flex">
-                <div class="card flex-fill">
-                    <img src="<%= movie.image.present? ? movie.image : 'https://via.placeholder.com/300x180' %>" 
-                         class="card-img-top" 
-                         alt="<%= movie.title %> Poster">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title"><%= movie.title %></h5>
-                        <p class="card-text"><%= movie.blurb %></p>
-                        <p class="card-text">
-                            <small class="text-muted">Released on: <%= movie.date_released.strftime("%B %d, %Y") %></small>
-                        </p>
-                        <p class="card-text">
-                            <small class="text-muted">
-                                Showing from: <%= movie.showing_start.strftime("%B %d, %Y %H:%M") %> to 
-                                <%= movie.showing_end.strftime("%B %d, %Y %H:%M") %>
-                            </small>
-                        </p>
-                        <div class="mt-auto d-flex justify-content-between">
-                            <%= link_to "Reviews", movie_reviews_path(@movies), class: "btn btn-primary" %>
-                            <%= link_to "Edit", edit_movie_path(movie.id), class: "btn btn-warning" %>
-                            <%= button_to "Delete", movie_path(movie.id), method: :delete, class: "btn btn-danger" %>
-                        </div>
-                    </div>
-                </div>
+<div class="container mt-2">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Movies</h1>
+    <%= link_to "Add Movie", new_movie_path, class: "btn btn-success" %>
+  </div>
+  <div class="row">
+    <% @movies.each do |movie| %>
+      <div class="col-md-4 mb-4 d-flex">
+        <div class="card flex-fill">
+          <img src="<%= movie.image.presence || 'https://via.placeholder.com/300x180' %>"
+               class="card-img-top"
+               alt="<%= movie.title %> Poster">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title"><%= movie.title %></h5>
+            <p class="card-text"><%= movie.blurb %></p>
+            <p class="card-text"><%= movie.genres.pluck(:name).join(', ') %></p>
+            <p class="card-text">
+              <small class="text-muted">Released on: <%= movie.date_released&.strftime("%B %d, %Y") %></small>
+            </p>
+            <p class="card-text">
+              <small class="text-muted">
+                Showing from: <%= movie.showing_start.strftime("%B %d, %Y %H:%M") %> to
+                <%= movie.showing_end.strftime("%B %d, %Y %H:%M") %>
+              </small>
+            </p>
+            <div class="mt-auto d-flex justify-content-between">
+              <%= link_to "Reviews", movie_reviews_path(movie), class: "btn btn-primary" %>
+              <%= link_to "Edit", edit_movie_path(movie), class: "btn btn-warning" %>
+              <%= button_to "Delete", movie_path(movie), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>
             </div>
-        <% end %>
-    </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
