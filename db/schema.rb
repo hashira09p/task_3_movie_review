@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_13_130103) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_14_015203) do
   create_table "movies", charset: "utf8mb4", force: :cascade do |t|
     t.string "title"
     t.text "blurb"
@@ -23,6 +23,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_13_130103) do
     t.string "image"
   end
 
+  create_table "reviews", charset: "utf8mb4", force: :cascade do |t|
+    t.string "content"
+    t.bigint "movie_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_reviews_on_movie_id"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -33,4 +41,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_13_130103) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "reviews", "movies"
 end

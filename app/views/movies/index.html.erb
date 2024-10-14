@@ -23,7 +23,7 @@
                             </small>
                         </p>
                         <div class="mt-auto d-flex justify-content-between">
-                            <%= link_to "Reviews", class: "btn btn-primary" %>
+                            <%= link_to "Reviews", movie_reviews_path(@movies), class: "btn btn-primary" %>
                             <%= link_to "Edit", edit_movie_path(movie.id), class: "btn btn-warning" %>
                             <%= button_to "Delete", movie_path(movie.id), method: :delete, class: "btn btn-danger" %>
                         </div>
