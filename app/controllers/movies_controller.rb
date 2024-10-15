@@ -3,8 +3,8 @@ class MoviesController < ApplicationController
   before_action :set_movie, only: [:edit, :update, :destroy]
   before_action :validate_movie_owner, only: [:edit, :update, :destroy]
 
-  def index
-    @movies = Movie.includes(:genres, :user).all
+  def index;
+    @movies = Movie.includes(:genres, :user).page(params[:page]).per(3)
   end
 
   def new
@@ -41,7 +41,7 @@ class MoviesController < ApplicationController
   private
 
   def set_movie
-    @movie = Movie.find(params[ :id])
+    @movie = Movie.find(params[:id])
   end
 
   def movie_params
@@ -52,6 +52,16 @@ class MoviesController < ApplicationController
     unless @movie.user == current_user
       flash[:alert] = 'the Movie review post not belongs to you'
       redirect_to root_path
+    end
+  end
+
+  def filter_by_genre
+
+  end
+
+  def filter
+    if params[:genre].present?
+      render json: params[:genre]
     end
   end
 end

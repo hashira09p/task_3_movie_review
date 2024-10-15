@@ -4,7 +4,7 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: [:edit, :update, :destroy]
   before_action :validate_review_owner, only: [:edit, :update, :destroy]
   def index
-    @reviews = @movie.reviews.includes(:user)
+    @reviews = @movie.reviews.includes(:user).order(created_at: :desc)
   end
 
   def new
@@ -33,7 +33,9 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    render json: @review
+    @review.destroy
+    flash[:Alert] = 'Comment deleted successfully'
+    redirect_to movie_reviews_path(@movie)
   end
 
   private
@@ -56,4 +58,6 @@ class ReviewsController < ApplicationController
       redirect_to movie_reviews_path(@movie)
     end
   end
+
+
 end
