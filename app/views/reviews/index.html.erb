@@ -9,10 +9,11 @@
       <div class="col-12 mb-3"> <!-- Change to col-12 for full width -->
         <div class="card h-100">
           <div class="card-body">
-            <p class="card-text"><%= review.content %></p>
+            <p class="card-text">Review: <%= review.content %></p>
+            <p class="card-text">User Rating: <%= review.ratings %></p>
             <div class="d-flex justify-content-between">
-              <%= link_to 'Edit', edit_movie_review_path(review.id, @movie), class: 'btn btn-warning' %>
-              <%#= link_to 'Destroy', movie_path(movie), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+              <%= link_to 'Edit', edit_movie_review_path(@movie, review), class: 'btn btn-warning' %>
+              <%= button_to 'Delete', movie_review_path(@movie, review), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
             </div>
           </div>
         </div>

@@ -1,9 +1,10 @@
 class MoviesController < ApplicationController
-
+  before_action :authenticate_user!, except: :index
   before_action :set_movie, only: [:edit, :update, :destroy]
+  before_action :validate_movie_owner, only: [:edit, :update, :destroy]
 
   def index
-    @movies = Movie.includes(:genres).all
+    @movies = Movie.includes(:genres, :user).all
   end
 
   def new
@@ -12,14 +13,14 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.new(movie_params)
+    @movie.user = current_user
     if @movie.save
       flash[:notice] = 'Succesfully added'
-      redirect_to movies_path
+      redirect_to root_path
     else
-      flash[:notice] = 'failed to add'
+      flash[:alert] = 'failed to add'
       render :new
     end
-
   end
 
   def edit;end
@@ -45,5 +46,12 @@ class MoviesController < ApplicationController
 
   def movie_params
     params.require(:movie).permit(:title, :blurb, :date_released, :country_of_origin, :showing_start, :showing_end, :image, genre_ids: [])
+  end
+
+  def validate_movie_owner
+    unless @movie.user == current_user
+      flash[:alert] = 'the Movie review post not belongs to you'
+      redirect_to root_path
+    end
   end
 end
