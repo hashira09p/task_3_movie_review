@@ -12,8 +12,10 @@
             <p class="card-text">Review: <%= review.content %></p>
             <p class="card-text">User Rating: <%= review.ratings %></p>
             <div class="d-flex justify-content-between">
+              <% if user_signed_in? && review.user == current_user %>
               <%= link_to 'Edit', edit_movie_review_path(@movie, review), class: 'btn btn-warning' %>
               <%= button_to 'Delete', movie_review_path(@movie, review), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+              <% end %>
             </div>
           </div>
         </div>
