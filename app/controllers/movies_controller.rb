@@ -4,7 +4,7 @@ class MoviesController < ApplicationController
   before_action :validate_movie_owner, only: [:edit, :update, :destroy]
 
   def index;
-    @movies = Movie.includes(:genres, :user).page(params[:page]).per(3)
+    filter
   end
 
   def new
@@ -55,13 +55,14 @@ class MoviesController < ApplicationController
     end
   end
 
-  def filter_by_genre
 
-  end
 
   def filter
     if params[:genre].present?
-      render json: params[:genre]
+      @genre_id = Genre.find_by(name: params[:genre])
+      @movies = @genre_id.movies.includes(:genres, :user).page(params[:page]).per(3)
+    else
+      @movies = Movie.includes(:genres, :user).page(params[:page]).per(3)
     end
   end
 end
