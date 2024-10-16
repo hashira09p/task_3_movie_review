@@ -1,7 +1,7 @@
 <div class="genre-form mb-4">
   <%= form_with url: movies_path, method: :get, local: true do %>
     <div class="d-flex flex-wrap justify-content-center">
-      <% genres = ['Action', 'Comedy', 'Drama', 'Horror', 'Fantasy', 'Thriller', 'Romance', 'Documentary', 'Animation', 'Adventure', 'Mystery', 'Musical', 'Biography'] %>
+      <% genres = ['All','Action', 'Comedy', 'Drama', 'Horror', 'Fantasy', 'Thriller', 'Romance', 'Documentary', 'Animation', 'Adventure', 'Mystery', 'Musical', 'Biography'] %>
       <% genres.each do |genre| %>
         <%= button_tag genre, type: 'submit', class: 'btn btn-outline-primary m-1 genre-button', name: 'genre', value: genre %>
       <% end %>
@@ -29,7 +29,7 @@
             <h5 class="card-title text-primary"><%= movie.title %></h5>
             <p class="card-text"><%= movie.blurb %></p>
             <% if movie.average_rating.present? %>
-              <p class="card-text"><%= movie.average_rating %></p>
+              <p class="card-text">Ratings: <%= movie.average_rating %> 🌟 </p>
             <% end %>
             <p class="card-text text-muted"><%= movie.genres.pluck(:name).join(', ') %></p>
             <p class="card-text"><strong>Country:</strong> <%= movie.country_of_origin %></p>

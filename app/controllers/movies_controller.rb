@@ -58,7 +58,9 @@ class MoviesController < ApplicationController
 
 
   def filter
-    if params[:genre].present?
+    if params[:genre] == 'All'
+      @movies = Movie.includes(:genres, :user).page(params[:page]).per(3)
+    elsif params[:genre].present?
       @genre_id = Genre.find_by(name: params[:genre])
       @movies = @genre_id.movies.includes(:genres, :user).page(params[:page]).per(3)
     else
