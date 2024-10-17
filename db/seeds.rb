@@ -16,6 +16,7 @@ genres = Genre.create([
                       ])
 
 # Create movies with the appropriate genre associations
+=begin
 user1 = User.create(email: "wla@gmail.com")
 Movie.create!([
                 {
@@ -96,4 +97,5 @@ Movie.create!([
                   user: user1
                 }
               ])
+=end
 

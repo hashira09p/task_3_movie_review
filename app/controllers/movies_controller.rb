@@ -27,7 +27,7 @@ class MoviesController < ApplicationController
 
   def update
     if @movie.update(movie_params)
-      flash[:notice] = 'Succesfully added'
+      flash[:notice] = 'Succesfully updated'
       redirect_to root_path
     end
   end
@@ -59,12 +59,12 @@ class MoviesController < ApplicationController
 
   def filter
     if params[:genre] == 'All'
-      @movies = Movie.includes(:genres, :user).page(params[:page]).per(3)
+      @movies = Movie.includes(:genres, :user).page(params[:page]).per(3).order(average_rating: :desc)
     elsif params[:genre].present?
       @genre_id = Genre.find_by(name: params[:genre])
-      @movies = @genre_id.movies.includes(:genres, :user).page(params[:page]).per(3)
+      @movies = @genre_id.movies.includes(:genres, :user).page(params[:page]).per(3).order(average_rating: :desc)
     else
-      @movies = Movie.includes(:genres, :user).page(params[:page]).per(3)
+      @movies = Movie.includes(:genres, :user).page(params[:page]).per(3).order(average_rating: :desc)
     end
   end
 end
