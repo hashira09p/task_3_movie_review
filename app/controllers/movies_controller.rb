@@ -41,11 +41,11 @@ class MoviesController < ApplicationController
   private
 
   def set_movie
-    @movie = Movie.find(params[:id])
+    @movie = Movie.find_by!(slug: params[:slug])
   end
 
   def movie_params
-    params.require(:movie).permit(:title, :blurb, :date_released, :country_of_origin, :showing_start, :showing_end, :image, genre_ids: [])
+    params.require(:movie).permit(:title, :blurb, :date_released, :country_of_origin, :showing_start, :showing_end, :image, :slug, genre_ids: [])
   end
 
   def validate_movie_owner
@@ -59,12 +59,21 @@ class MoviesController < ApplicationController
 
   def filter
     if params[:genre] == 'All'
-      @movies = Movie.includes(:genres, :user).page(params[:page]).per(3).order(average_rating: :desc)
+      @movies = Movie.includes(:genres, :user)
+                     .page(params[:page])
+                     .per(3)
+                     .order(average_rating: :desc)
     elsif params[:genre].present?
       @genre_id = Genre.find_by(name: params[:genre])
-      @movies = @genre_id.movies.includes(:genres, :user).page(params[:page]).per(3).order(average_rating: :desc)
+      @movies = @genre_id.movies.includes(:genres, :user)
+                         .page(params[:page])
+                         .per(3)
+                         .order(average_rating: :desc)
     else
-      @movies = Movie.includes(:genres, :user).page(params[:page]).per(3).order(average_rating: :desc)
+      @movies = Movie.includes(:genres, :user)
+                     .page(params[:page])
+                     .per(3)
+                     .order(average_rating: :desc)
     end
   end
 end

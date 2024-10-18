@@ -48,7 +48,7 @@
             </p>
             <div class="mt-auto">
               <div class="d-flex justify-content-between">
-                <%= link_to "Reviews", movie_reviews_path(movie), class: "btn btn-primary" %>
+                <%= link_to "Reviews", movie_reviews_path(movie_slug: movie.slug), class: "btn btn-primary" %>
                 <% if user_signed_in? && movie.user == current_user %>
                   <div>
                     <%= link_to "Edit", edit_movie_path(movie), class: "btn btn-warning mr-1" %>

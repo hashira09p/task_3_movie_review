@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_15_083819) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_18_062009) do
   create_table "genres", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -38,6 +38,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_15_083819) do
     t.string "image"
     t.bigint "user_id"
     t.integer "average_rating"
+    t.string "slug"
+    t.index ["slug"], name: "index_movies_on_slug", unique: true
     t.index ["user_id"], name: "index_movies_on_user_id"
   end
 
