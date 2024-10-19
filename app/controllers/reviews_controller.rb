@@ -16,7 +16,7 @@ class ReviewsController < ApplicationController
     @review.user = current_user
     if @review.save
       flash[:notice] = 'Review created successfully'
-      redirect_to movie_reviews_path(@movie)
+      redirect_to movie_reviews_path(@movie.slug)
     else
       flash.now[:alert] = 'Failed to create review'
       render :new
@@ -28,20 +28,20 @@ class ReviewsController < ApplicationController
   def update
     if @review.update(review_params)
       flash[:notice] = 'Model updated successfully'
-      redirect_to movie_reviews_path(@movie)
+      redirect_to movie_reviews_path(@movie.slug)
     end
   end
 
   def destroy
     @review.destroy
     flash[:Alert] = 'Comment deleted successfully'
-    redirect_to movie_reviews_path(@movie)
+    redirect_to movie_reviews_path(@movie.slug)
   end
 
   private
 
   def set_movie
-    @movie = Movie.find_by!(slug: params[:movie_slug])
+    @movie = Movie.find_by(slug: params[:movie_slug])
   end
 
   def set_review
@@ -49,7 +49,7 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:content, :ratings)
+    params.require(:review).permit(:content, :ratings, :slug)
   end
 
   def validate_review_owner

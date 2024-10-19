@@ -41,7 +41,7 @@ class MoviesController < ApplicationController
   private
 
   def set_movie
-    @movie = Movie.find_by!(slug: params[:slug])
+    @movie = Movie.find_by(slug: params[:slug]) || Movie.find_by(params[:id])
   end
 
   def movie_params
