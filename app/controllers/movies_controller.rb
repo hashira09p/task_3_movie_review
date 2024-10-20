@@ -33,10 +33,11 @@ class MoviesController < ApplicationController
   end
 
   def destroy
-    if @movie.destroy
+    if @movie.update(deleted_at: Time.now)
       redirect_to root_path
     end
   end
+
 
   private
 
@@ -55,25 +56,28 @@ class MoviesController < ApplicationController
     end
   end
 
-
-
   def filter
-    if params[:genre] == 'All'
+    if params[:genre] == 'All' || params[:genre].blank?
       @movies = Movie.includes(:genres, :user)
+                     .where(deleted_at: nil) # Exclude deleted movies
+                     .order(average_rating: :desc)
                      .page(params[:page])
                      .per(3)
-                     .order(average_rating: :desc)
-    elsif params[:genre].present?
-      @genre_id = Genre.find_by(name: params[:genre])
-      @movies = @genre_id.movies.includes(:genres, :user)
-                         .page(params[:page])
-                         .per(3)
-                         .order(average_rating: :desc)
     else
-      @movies = Movie.includes(:genres, :user)
-                     .page(params[:page])
-                     .per(3)
-                     .order(average_rating: :desc)
+      @genre = Genre.find_by(name: params[:genre])
+      if @genre
+        @movies = @genre.movies.includes(:genres, :user)
+                        .where(deleted_at: nil) # Exclude deleted movies
+                        .order(average_rating: :desc)
+                        .page(params[:page])
+                        .per(3)
+      else
+        @movies = Movie.includes(:genres, :user)
+                       .where(deleted_at: nil) # Exclude deleted movies
+                       .order(average_rating: :desc)
+                       .page(params[:page])
+                       .per(3)
+      end
     end
   end
 end

@@ -1,4 +1,6 @@
 class Movie < ApplicationRecord
+  default_scope { where(deleted_at: nil) }
+
   before_save :generate_slug
   mount_uploader :image, ImageUploader
   has_many :reviews, dependent: :destroy

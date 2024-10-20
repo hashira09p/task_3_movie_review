@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_18_062009) do
     t.string "image"
     t.bigint "user_id"
     t.integer "average_rating"
+    t.datetime "deleted_at"
     t.string "slug"
     t.index ["slug"], name: "index_movies_on_slug", unique: true
     t.index ["user_id"], name: "index_movies_on_user_id"
